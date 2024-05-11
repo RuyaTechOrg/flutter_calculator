@@ -14,19 +14,17 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     double buttonSpace = MediaQuery.of(context).size.width * 0.047;
-
-
     return  Scaffold(
     backgroundColor: const Color(0xFF151715),
     body: Column(children: [
       Container(
       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
-      height: MediaQuery.of(context).size.height * 0.3,
+      height: MediaQuery.of(context).size.height * 0.35,
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(width:0.3,color: Colors.grey))),  
       child:
       const Column(
         children: [
-        SizedBox(height: 100.0,),  
+        SizedBox(height: 20.0,),
          Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -39,7 +37,7 @@ class _MainPageState extends State<MainPage> {
           Text("=",style: secondNumStyle),
         ],
       ),
-      SizedBox(height: 20.0,),  
+      SizedBox(height: 10.0,),  
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -50,7 +48,7 @@ class _MainPageState extends State<MainPage> {
       ],)),
       Container(
       padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
-      height: MediaQuery.of(context).size.height * 0.7,
+      height: MediaQuery.of(context).size.height * 0.65,
       width: MediaQuery.of(context).size.width * 1.0,  
       child: Column(
         children: [
@@ -58,7 +56,7 @@ class _MainPageState extends State<MainPage> {
         padding: const EdgeInsets.fromLTRB(4.0, 0.0, 0.0, 0.0), 
         child: 
         Row(children: [
-        RoundedButton(text: "C",onPressed: () {print("This buttnoworks!");},),
+        RoundedButton(text: "C",onPressed: () {print("C");},),
         SizedBox(width: buttonSpace),
          RoundedButton(text: "%",onPressed: () {print("This buttnoworks!");},),
            SizedBox(width: buttonSpace),

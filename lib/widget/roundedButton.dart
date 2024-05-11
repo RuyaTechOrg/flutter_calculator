@@ -12,17 +12,16 @@ class RoundedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double verticalMeasurements = MediaQuery.of(context).size.width * 0.05;
-    double horizontalMeasurements = MediaQuery.of(context).size.width * 0.07;
     return
+    Expanded(child: 
      ElevatedButton( 
        style: ElevatedButton.styleFrom(
         primary: Colors.white,
-        padding:  EdgeInsets.symmetric(vertical: verticalMeasurements, horizontal: horizontalMeasurements),
+        padding:  EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01, horizontal: MediaQuery.of(context).size.height * 0.01),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
         ),
       ),
-      onPressed: onPressed, child: Text(text,style: const TextStyle(fontSize: 24.0,color: Colors.purple,fontWeight: FontWeight.w500),));
+      onPressed: onPressed, child: Text(text,style: const TextStyle(fontSize: 24.0,color: Colors.purple,fontWeight: FontWeight.w500,),)),);
   }
 }
