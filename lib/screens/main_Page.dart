@@ -15,8 +15,77 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     double buttonSpace = MediaQuery.of(context).size.width * 0.047;
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    String _input = '';
+    String _output = '';
 
 
+     void clear_Values() {
+          setState(() {
+            _input = '';
+            _output = '';
+          });
+      }
+
+    void updateValue(newvalue) {
+      if(newvalue == 'C'){
+       clear_Values();
+      }
+      else{
+      setState(() {
+        _input += newvalue; 
+      });
+      }
+    }
+
+
+    //Clear screen for new calculations
+   
+
+    String _calculate() {
+      if(_output.isEmpty || _input.isEmpty){
+        return _input;
+      }
+
+      _input = _input.replaceAll(" ", '');
+      int operator_index = _input.indexOf(new RegExp(r'[+\-*/]'));
+
+      String operator = _input[operator_index];
+
+      String operand1 = _input.substring(0,operator_index);
+      String operand2 = _input.substring(operator_index + 1);
+
+      double operand_One = double.parse(operand1);
+      double operand_Two = double.parse(operand2);
+
+      
+      double result;
+
+      switch(operator){
+        case "+":
+          result = operand_One + operand_Two;
+          break;
+        case "-":
+          result = operand_One - operand_Two;
+          break;
+        case "/":
+          if(operand2 != 0){
+             result = operand_One / operand_Two;
+          }
+          else{
+          return 'Error';
+          }
+        break;
+        case "*":
+          result = operand_One * operand_Two;
+        break;
+      default:
+        return "Error";
+      }
+      return result.toString();
+    }
+
+//handle buttonRow ( make dry):
   Widget buildButtonRow(List<String> texts) {
   return 
   Expanded(child: 
@@ -27,7 +96,14 @@ class _MainPageState extends State<MainPage> {
           RoundedButton(
             text: text,
             onPressed: () {
-              print("Button $text Pressed");
+              if(text == '='){
+                setState(() {
+                   _output = _calculate();
+                });
+              }
+              else {
+              updateValue(text);
+              }
             },
     ),SizedBox(width: buttonSpace,)],)),).toList(),
   ));
@@ -45,27 +121,20 @@ class _MainPageState extends State<MainPage> {
       child:
        Column(
         children: [
-        SizedBox(height: 20.0,),
+        const SizedBox(height: 20.0,),
          Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Text("1",style: customTextStyle),
-          SizedBox(width: 10.0,),
-          Text('+',style: secondNumStyle),
-          SizedBox(width: 10.0,),
-          Text("32",style: customTextStyle,),
-          SizedBox(width: 10.0,),
-          Text("=",style: secondNumStyle),
+          Text(_input,style: customTextStyle),
+          const SizedBox(width: 10.0,),
         ],
-     
       ),
-      SizedBox(height: 10.0,),  
-      Row(
+      const SizedBox(height: 10.0,),  
+       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-       
-        SizedBox(width: 10.0,),
-        Text("33",style: answerStyle,)
+        const SizedBox(width: 10.0,),
+        Text(_output,style: answerStyle,)
       ],)
       ],)),
       Container(
@@ -82,19 +151,19 @@ class _MainPageState extends State<MainPage> {
         buildButtonRow(["C","%","D","/"]),
         ],)
         ,),
-        SizedBox(height: 20.0,),
+        const SizedBox(height: 20.0,),
           Row(children: [
         buildButtonRow(["7","8","9","*"])
         ],),
-          SizedBox(height: 20.0,),
+          const SizedBox(height: 20.0,),
           Row(children: [
           buildButtonRow(["4","5","6","-"])
         ],),
-         SizedBox(height: 20.0,),
+        const SizedBox(height: 20.0,),
           Row(children: [
         buildButtonRow(["1","2","3","+"])
         ],),
-          SizedBox(height: 20.0,),
+          const SizedBox(height: 20.0,),
           Row(children: [
         buildButtonRow(["0",".","+/-","="])
         ],),
@@ -102,10 +171,6 @@ class _MainPageState extends State<MainPage> {
     ],));
   }
 }
-
-
-//handle buttonRow ( make dry):
-
 
 
 const TextStyle customTextStyle = TextStyle(

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:project_1/screens/mainPage.dart';
+import 'package:project_1/screens/main_Page.dart';
 
 class OnboardingPage extends StatelessWidget{
+  const OnboardingPage({super.key});
+
   @override
   Widget build(BuildContext context){
-    Future.delayed(Duration(seconds: 5),() {
+    Future.delayed(const Duration(seconds: 5),() {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const MainPage())
       );
