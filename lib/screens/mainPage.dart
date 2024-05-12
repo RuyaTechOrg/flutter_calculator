@@ -14,6 +14,27 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     double buttonSpace = MediaQuery.of(context).size.width * 0.047;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+
+  Widget buildButtonRow(List<String> texts) {
+  return 
+  Expanded(child: 
+  Row(
+    children: texts.map((text) => 
+          Expanded(child: 
+          Row(children: [
+          RoundedButton(
+            text: text,
+            onPressed: () {
+              print("Button $text Pressed");
+            },
+    ),SizedBox(width: buttonSpace,)],)),).toList(),
+  ));
+}
+
+
+
     return  Scaffold(
     backgroundColor: const Color(0xFF151715),
     body: Column(children: [
@@ -22,7 +43,7 @@ class _MainPageState extends State<MainPage> {
       height: MediaQuery.of(context).size.height * 0.35,
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(width:0.3,color: Colors.grey))),  
       child:
-      const Column(
+       Column(
         children: [
         SizedBox(height: 20.0,),
          Row(
@@ -36,6 +57,7 @@ class _MainPageState extends State<MainPage> {
           SizedBox(width: 10.0,),
           Text("=",style: secondNumStyle),
         ],
+     
       ),
       SizedBox(height: 10.0,),  
       Row(
@@ -49,71 +71,42 @@ class _MainPageState extends State<MainPage> {
       Container(
       padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
       height: MediaQuery.of(context).size.height * 0.65,
-      width: MediaQuery.of(context).size.width * 1.0,  
+      width: screenWidth,  
       child: Column(
         children: [
         Container(
+        width: screenWidth,
         padding: const EdgeInsets.fromLTRB(4.0, 0.0, 0.0, 0.0), 
         child: 
         Row(children: [
-        RoundedButton(text: "C",onPressed: () {print("C");},),
-        SizedBox(width: buttonSpace),
-         RoundedButton(text: "%",onPressed: () {print("This buttnoworks!");},),
-           SizedBox(width: buttonSpace),
-          RoundedButton(text: "D",onPressed: () {print("This buttnoworks!");},),
-            SizedBox(width: buttonSpace),
-           RoundedButton(text: "/",onPressed: () {print("This buttnoworks!");},),
-             SizedBox(width: buttonSpace),
+        buildButtonRow(["C","%","D","/"]),
         ],)
         ,),
         SizedBox(height: 20.0,),
           Row(children: [
-        RoundedButton(text: "7",onPressed: () {print("This buttnoworks!");},),
-        SizedBox(width: buttonSpace),
-         RoundedButton(text: "8",onPressed: () {print("This buttnoworks!");},),
-           SizedBox(width: buttonSpace),
-          RoundedButton(text: "9",onPressed: () {print("This buttnoworks!");},),
-            SizedBox(width: buttonSpace),
-           RoundedButton(text: "*",onPressed: () {print("This buttnoworks!");},),
-             SizedBox(width: buttonSpace),
+        buildButtonRow(["7","8","9","*"])
         ],),
           SizedBox(height: 20.0,),
           Row(children: [
-        RoundedButton(text: "4",onPressed: () {print("This buttnoworks!");},),
-        SizedBox(width: buttonSpace),
-         RoundedButton(text: "5",onPressed: () {print("This buttnoworks!");},),
-           SizedBox(width: buttonSpace),
-          RoundedButton(text: "6",onPressed: () {print("This buttnoworks!");},),
-            SizedBox(width: buttonSpace),
-           RoundedButton(text: "-",onPressed: () {print("This buttnoworks!");},),
-             SizedBox(width: buttonSpace),
+          buildButtonRow(["4","5","6","-"])
         ],),
          SizedBox(height: 20.0,),
           Row(children: [
-        RoundedButton(text: "1",onPressed: () {print("This buttnoworks!");},),
-        SizedBox(width: buttonSpace),
-         RoundedButton(text: "2",onPressed: () {print("This buttnoworks!");},),
-           SizedBox(width: buttonSpace),
-          RoundedButton(text: "3",onPressed: () {print("This buttnoworks!");},),
-            SizedBox(width: buttonSpace),
-           RoundedButton(text: "+",onPressed: () {print("This buttnoworks!");},),
-             SizedBox(width: buttonSpace),
+        buildButtonRow(["1","2","3","+"])
         ],),
           SizedBox(height: 20.0,),
           Row(children: [
-        RoundedButton(text: "0",onPressed: () {print("This buttnoworks!");},),
-        SizedBox(width: buttonSpace),
-          RoundedButton(text: ".",onPressed: () {print("This buttnoworks!");},),
-            SizedBox(width: buttonSpace),
-          //  RoundedButton(text: "+/-",onPressed: () {print("This buttnoworks!");},),
-          //    SizedBox(width: buttonSpace),
-              RoundedButton(text: "=",onPressed: () {print("This buttnoworks!");},),
-             SizedBox(width: buttonSpace),
+        buildButtonRow(["0",".","+/-","="])
         ],),
       ]),)
     ],));
   }
 }
+
+
+//handle buttonRow ( make dry):
+
+
 
 const TextStyle customTextStyle = TextStyle(
   color: Colors.white,

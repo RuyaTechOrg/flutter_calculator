@@ -12,12 +12,18 @@ class RoundedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth =  MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return
-    Expanded(child: 
+    Expanded(
+    flex: 1,  
+    child: 
      ElevatedButton( 
        style: ElevatedButton.styleFrom(
         primary: Colors.white,
-        padding:  EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01, horizontal: MediaQuery.of(context).size.height * 0.01),
+        padding:  EdgeInsets.symmetric(vertical: screenHeight * 0.01, horizontal: screenHeight * 0.01),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
         ),
