@@ -1,4 +1,5 @@
 import  'package:flutter/material.dart';
+import 'package:project_1/screens/scientific_calc.dart';
 import 'package:project_1/widget/roundedButton.dart';
 
 
@@ -19,7 +20,7 @@ class _MainPageState extends State<MainPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     // double screenHeight = MediaQuery.of(context).size.height;
     // double scaffoldPadding = MediaQuery.of(context).size.width * 0.01;
-    double _sci_btn = MediaQuery.of(context).size.width * 0.5;
+    double _sci_btn = MediaQuery.of(context).size.width * 0.7;
 
 
      void clear_Values() {
@@ -100,9 +101,8 @@ class _MainPageState extends State<MainPage> {
 
 
       for (int  i = 0; i < operators.length;i++){
-        
-        String operator = operators[i];
-        double operand = double.parse(operands[i + 1]);
+      String operator = operators[i];
+      double operand = double.parse(operands[i + 1]);
 
         switch(operator){
         case "+":
@@ -126,7 +126,7 @@ class _MainPageState extends State<MainPage> {
         return "Error";
       }
       }
-   
+      print(result);
       return result.toString();
       // return "works";
     }
@@ -161,13 +161,13 @@ class _MainPageState extends State<MainPage> {
     backgroundColor: Color.fromARGB(255, 82, 25, 92),
     body: Column(children: [
       Container(
-      padding: const EdgeInsets.fromLTRB(0.0,30.0, 20.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0,20.0, 20.0, 0.0),
       height: MediaQuery.of(context).size.height * 0.35,
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(width:0.3,color: Colors.grey))),  
       child:
        Column(
         children: [
-        const SizedBox(height: 20.0,),
+        const SizedBox(height: 10.0,),
          Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -177,10 +177,16 @@ class _MainPageState extends State<MainPage> {
           decoration: BoxDecoration(color: Colors.transparent, borderRadius: BorderRadius.circular(50.0)),  
           child: 
           ElevatedButton(  
-          onPressed: () {}, child: const Text("Scientific Calculator",style: TextStyle(color: Colors.purple),)),),
-          const SizedBox(height:30.0,),
+          style: const ButtonStyle(backgroundColor : MaterialStatePropertyAll(Color.fromARGB(255, 37, 9, 42))),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: ((context) => const ScientificCalc())));
+          }, child: const Text("Scientific Calculator",style: TextStyle(color: Colors.purple),)),),
+          const SizedBox(height:10.0,),
          ],
       ),
+      Expanded(
+      flex: 2,  
+      child: 
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -189,14 +195,18 @@ class _MainPageState extends State<MainPage> {
         child: 
         Text(_input,style: customTextStyle,)
         ,)
-      ],),
-      const SizedBox(height: 10.0,),  
+      ],)),
+      const SizedBox(height: 5.0,),  
+      Expanded(
+      flex: 1,  
+      child: 
        Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-        const SizedBox(width: 10.0,),
-        Text(_output,style: answerStyle,)
+        const SizedBox(width: 3.0,),  
+        Text('Ans: $_output',style: answerStyle,)
       ],)
+      )
       ],)),
       Container(
       padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
@@ -251,17 +261,17 @@ class _MainPageState extends State<MainPage> {
 
 const TextStyle customTextStyle = TextStyle(
   color: Colors.white,
-  fontSize: 45.0,
+  fontSize: 24.0,
   fontWeight: FontWeight.w500
 );
 
 const TextStyle secondNumStyle =  TextStyle(
   color: Colors.white,
-  fontSize: 45.0,
+  fontSize: 24.0,
   fontWeight:  FontWeight.bold
 );
 
 const TextStyle answerStyle = TextStyle(
   color: Colors.purple,
-  fontSize: 60.0
+  fontSize: 24.0
 );
