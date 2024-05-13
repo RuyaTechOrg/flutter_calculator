@@ -10,79 +10,125 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+    String _input = '0';
+    String _output = '';
 
   @override
   Widget build(BuildContext context) {
     double buttonSpace = MediaQuery.of(context).size.width * 0.047;
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    String _input = '';
-    String _output = '';
+    // double screenHeight = MediaQuery.of(context).size.height;
+    // double scaffoldPadding = MediaQuery.of(context).size.width * 0.01;
+    double _sci_btn = MediaQuery.of(context).size.width * 0.5;
 
 
      void clear_Values() {
           setState(() {
-            _input = '';
+            _input = '0';
             _output = '';
           });
       }
 
+     
+
     void updateValue(newvalue) {
+
+       void refresh_add() {
+             setState(() {
+             if(_input == '0'){
+            _input = '';
+            _input += newvalue;  
+            }
+            else{
+            _input += newvalue;
+             }
+            print(_input);
+            });
+      }
       if(newvalue == 'C'){
        clear_Values();
       }
+      else if(newvalue == 'D'){
+        setState(() {
+          if(_input.isNotEmpty){
+            _input = _input.substring(0, _input.length - 1);
+          }
+          //remove last value added.
+        });
+      }
+      else if(newvalue == '%'){
+          setState(() {
+            if(_input.isEmpty || _input == '0'){
+              null;
+            }
+            else{
+           refresh_add();
+            }
+          });
+      }
       else{
-      setState(() {
-        _input += newvalue; 
-      });
+        refresh_add();
       }
     }
-
-
     //Clear screen for new calculations
-   
-
     String _calculate() {
-      if(_output.isEmpty || _input.isEmpty){
-        return _input;
-      }
-
       _input = _input.replaceAll(" ", '');
       int operator_index = _input.indexOf(new RegExp(r'[+\-*/]'));
+      print(operator_index);
+
+        if(_input == '' ||operator_index == -1){
+        return _input;
+      }
 
       String operator = _input[operator_index];
 
       String operand1 = _input.substring(0,operator_index);
       String operand2 = _input.substring(operator_index + 1);
 
+      List<String> operands = _input.split(RegExp(r'[-+*/]'));
+      List<String> operators = _input.split(RegExp(r'\d+')).where((element) => element.isNotEmpty).toList();
+
       double operand_One = double.parse(operand1);
-      double operand_Two = double.parse(operand2);
+      double operand_Two = double.parse(operand1);
+    // print(operands);
+    // print(operators);
+
 
       
-      double result;
 
-      switch(operator){
+      double result = double.parse(operands[0]);
+
+
+      for (int  i = 0; i < operators.length;i++){
+        
+        String operator = operators[i];
+        double operand = double.parse(operands[i + 1]);
+
+        switch(operator){
         case "+":
-          result = operand_One + operand_Two;
+          result += operand;
           break;
         case "-":
-          result = operand_One - operand_Two;
+          result -= operand;
           break;
         case "/":
-          if(operand2 != 0){
-             result = operand_One / operand_Two;
+          if(operand != 0){
+             result /= operand;
           }
           else{
-          return 'Error';
+          return "Error";
           }
         break;
         case "*":
-          result = operand_One * operand_Two;
+          result *= operand;
         break;
       default:
         return "Error";
       }
+      }
+   
       return result.toString();
+      // return "works";
     }
 
 //handle buttonRow ( make dry):
@@ -112,10 +158,10 @@ class _MainPageState extends State<MainPage> {
 
 
     return  Scaffold(
-    backgroundColor: const Color(0xFF151715),
+    backgroundColor: Color.fromARGB(255, 82, 25, 92),
     body: Column(children: [
       Container(
-      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0,30.0, 20.0, 0.0),
       height: MediaQuery.of(context).size.height * 0.35,
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(width:0.3,color: Colors.grey))),  
       child:
@@ -123,15 +169,30 @@ class _MainPageState extends State<MainPage> {
         children: [
         const SizedBox(height: 20.0,),
          Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(_input,style: customTextStyle),
-          const SizedBox(width: 10.0,),
-        ],
+          Container(
+          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+          width: _sci_btn,
+          decoration: BoxDecoration(color: Colors.transparent, borderRadius: BorderRadius.circular(50.0)),  
+          child: 
+          ElevatedButton(  
+          onPressed: () {}, child: const Text("Scientific Calculator",style: TextStyle(color: Colors.purple),)),),
+          const SizedBox(height:30.0,),
+         ],
       ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+        Container(
+        padding: const EdgeInsets.fromLTRB(10.0, 20.0, 0.0, 0.0),  
+        child: 
+        Text(_input,style: customTextStyle,)
+        ,)
+      ],),
       const SizedBox(height: 10.0,),  
        Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
         const SizedBox(width: 10.0,),
         Text(_output,style: answerStyle,)
@@ -143,30 +204,45 @@ class _MainPageState extends State<MainPage> {
       width: screenWidth,  
       child: Column(
         children: [
+        Expanded(
+        flex: 1,
+        child:  
         Container(
         width: screenWidth,
         padding: const EdgeInsets.fromLTRB(4.0, 0.0, 0.0, 0.0), 
         child: 
         Row(children: [
         buildButtonRow(["C","%","D","/"]),
-        ],)
+        ],))
         ,),
         const SizedBox(height: 20.0,),
-          Row(children: [
+        Expanded(
+        flex: 1,  
+        child:   
+        Row(children: [
         buildButtonRow(["7","8","9","*"])
-        ],),
+        ],)),
           const SizedBox(height: 20.0,),
-          Row(children: [
+        Expanded(
+        flex: 1,
+        child:   
+        Row(children: [
           buildButtonRow(["4","5","6","-"])
-        ],),
+        ],)),
         const SizedBox(height: 20.0,),
+         Expanded(
+          flex: 1,
+          child: 
           Row(children: [
         buildButtonRow(["1","2","3","+"])
-        ],),
+        ],),),
           const SizedBox(height: 20.0,),
+          Expanded(
+          flex: 1,  
+          child: 
           Row(children: [
         buildButtonRow(["0",".","+/-","="])
-        ],),
+        ],)),
       ]),)
     ],));
   }
@@ -175,13 +251,13 @@ class _MainPageState extends State<MainPage> {
 
 const TextStyle customTextStyle = TextStyle(
   color: Colors.white,
-  fontSize: 34.0,
+  fontSize: 45.0,
   fontWeight: FontWeight.w500
 );
 
 const TextStyle secondNumStyle =  TextStyle(
   color: Colors.white,
-  fontSize: 34.0,
+  fontSize: 45.0,
   fontWeight:  FontWeight.bold
 );
 
